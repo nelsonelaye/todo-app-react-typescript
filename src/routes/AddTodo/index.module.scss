@@ -1,0 +1,36 @@
+@import "../../styles/base.scss";
+
+main {
+  @extend %main-layout;
+}
+
+h1 {
+  //   color: $dark-color;
+  margin-bottom: 50px;
+}
+form {
+  @extend %display;
+  width: 320px;
+}
+
+.input_hold {
+  width: 100%;
+  margin-bottom: 20px;
+
+  label {
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 5px;
+
+    .red {
+      color: red;
+    }
+  }
+  input {
+    width: 100%;
+    padding: 15px 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid $grey;
+  }
+}

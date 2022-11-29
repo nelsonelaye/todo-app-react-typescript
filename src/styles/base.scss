@@ -1,0 +1,25 @@
+$main-color: #1a73e8;
+$grey: #cac6c3;
+$dark-color: #282c34;
+
+%display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+%main-layout {
+  @extend %display;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+@font-face {
+  font-family: "abeezee_regular";
+  src: url("../assets/fonts/ABeeZee-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+$font: "abeezee_regular";

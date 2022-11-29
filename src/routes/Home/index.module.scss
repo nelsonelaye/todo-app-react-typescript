@@ -1,0 +1,35 @@
+@import "../../styles/base.scss";
+
+main {
+  @extend %main-layout;
+}
+
+.hold {
+  width: 300px;
+}
+.heading {
+  @extend %display;
+  flex-direction: row;
+  justify-content: space-between;
+
+  width: 100%;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.add-btn {
+  @extend %display;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: $main-color;
+  font-size: 30px;
+  color: #fff;
+}
+
+ul {
+  list-style-type: none;
+  width: 100%;
+}
