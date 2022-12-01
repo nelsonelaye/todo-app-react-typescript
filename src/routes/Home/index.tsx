@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import { GrFormAdd } from "react-icons/gr";
@@ -15,9 +15,11 @@ type todoType = {
   startTime: string;
   dueTime: string;
 };
+type storageType = string | null;
 
 const Home = (): JSX.Element => {
   const [todo, setTodo] = useState([]);
+  const [complete, setComplete] = useState(false);
 
   const FetchData = useMemo(() => {
     let storageData = localStorage.getItem("todo");
@@ -26,6 +28,19 @@ const Home = (): JSX.Element => {
     } else if (storageData.length >= 1) {
       setTodo(JSON.parse(storageData));
       console.log(todo);
+    }
+  }, []);
+
+  const DeleteData = useCallback((index: number) => {
+    let storageData: storageType = localStorage.getItem("todo");
+
+    if (storageData == null) {
+      return null;
+    } else {
+      console.log(JSON.parse(storageData)?.[index]);
+      storageData = JSON.parse(storageData).slice(index, index);
+      localStorage.setItem("todo", JSON.stringify(storageData));
+      window.location.reload();
     }
   }, []);
 
@@ -46,11 +61,39 @@ const Home = (): JSX.Element => {
               </div>
             </Link>
           </div>
-          <ul className={style["todo_list"]}>
-            {todo?.map((prop: todoType) => (
+          <ul>
+            {todo?.map((prop: todoType, index) => (
               <li key={prop.task}>
-                <BiCheckDouble color="green" />
-                {prop.task}
+                <div className={style["task_details"]}>
+                  {complete ? (
+                    <div className={style["icon"]}>
+                      <BiCheckDouble color="green" />
+                    </div>
+                  ) : (
+                    <div className={style["icon"]}>
+                      <BiCheck color="grey" />
+                    </div>
+                  )}
+
+                  <span> {prop.task}</span>
+                </div>
+
+                <div className={style["action_btn"]}>
+                  <Link to={`/update/${index}`}>
+                    <div className={style["icon"]}>
+                      <TbEdit fontSize="20px" />
+                    </div>
+                  </Link>
+                  <div className={style["icon"]}>
+                    <MdDelete
+                      color="red"
+                      fontSize="20px"
+                      onClick={() => {
+                        DeleteData(index);
+                      }}
+                    />
+                  </div>
+                </div>
               </li>
             ))}
           </ul>

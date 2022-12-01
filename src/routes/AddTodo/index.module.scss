@@ -10,7 +10,7 @@ h1 {
 }
 form {
   @extend %display;
-  width: 320px;
+  width: 85%;
 }
 
 .input_hold {
@@ -32,5 +32,11 @@ form {
     border-radius: 5px;
     outline: none;
     border: 1px solid $grey;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  form {
+    width: 320px;
   }
 }
