@@ -3,7 +3,6 @@ import Header from "../../components/Header";
 import Button from "../../components/Button";
 import style from "../AddTodo/index.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-// import { FetchData } from "../../hooks/customHook/FetchData/FetchData";
 
 //using mapped type here
 // type preParams = {
@@ -17,10 +16,13 @@ type obj = {
   dueTime: string;
 };
 
+//make sure data state is updated
+//use splice method to update newStorageData
+//set localstorage todo to newStorageData
+
 const Index = () => {
   const navigate = useNavigate();
 
-  const [todo, setTodo] = useState<Array<obj>>();
   const [data, setData] = useState({
     task: "",
     date: "",
@@ -30,13 +32,13 @@ const Index = () => {
 
   const { id } = useParams();
 
-  //Get task to be updated and set it as current state
+  //Get task to be updated from localStorage and set it as current state
   const FetchData = useMemo(() => {
     let storageData = localStorage.getItem("todo");
     if (storageData == null) {
       return;
     } else if (storageData.length >= 1) {
-      if (id == undefined) {
+      if (id === undefined) {
         navigate("*");
       } else {
         let index = parseInt(id);
@@ -60,14 +62,14 @@ const Index = () => {
   const CollectInput = useCallback(
     (prop: string, value: string) => {
       setData({ ...data, [prop]: value });
-      //   console.log(data);
+      // console.log("Collecting input", data);
     },
     [data]
   );
 
   const SubmitForm = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+      // e.preventDefault();
 
       let storageData = localStorage.getItem("todo");
 
@@ -77,13 +79,24 @@ const Index = () => {
       } else if (storageData.length >= 1) {
         let newStorageData: obj[] = JSON.parse(storageData);
 
-        let arr = newStorageData.map((prop) =>
-          prop.task == data.task ? data : null
-        );
-        console.log("new", arr);
-        // localStorage.setItem("todo", JSON.stringify([arr]));
+        if (id == null) {
+          return;
+        } else {
+          let removeIndex = parseInt(id);
+          console.log("Remove index", removeIndex);
 
-        // navigate("/");
+          //splice method here returns the deleted data AND NOT THE NEWLY INSERTED DATA
+
+          newStorageData.splice(removeIndex, 1, data);
+
+          console.log("To be set to lS", newStorageData);
+
+          // set localStorage to the newly updated array through splice method
+
+          localStorage.setItem("todo", JSON.stringify(newStorageData));
+          console.log("Localstorage set");
+          navigate("/");
+        }
       }
 
       // return console.log(data);
@@ -117,7 +130,7 @@ const Index = () => {
               type="text"
               id="task"
               placeholder="Enter new task here"
-              //   defaultValue={data.task}
+              defaultValue={data.task}
               onChange={(e) => {
                 CollectInput("task", e.target.value);
               }}

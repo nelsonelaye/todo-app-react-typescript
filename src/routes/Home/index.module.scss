@@ -35,9 +35,9 @@ ul {
   width: 100%;
   padding: 0;
 
-  :nth-child(2n-1) {
-    background-color: #f5f5f5;
-  }
+  // :nth-of-type(even) {
+  //   background-color: #f5f5f5;
+  // }
 }
 
 li {
@@ -48,6 +48,11 @@ li {
   // border-bottom: 1px solid $grey;
   padding: 10px;
   margin: 0 0 20px;
+  background-color: #fff;
+}
+
+li:nth-child(odd) {
+  background-color: #f5f5f5;
 }
 
 .task_details {
@@ -61,6 +66,12 @@ li {
   }
 }
 
+input[type="checkbox"] {
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 .action_btn {
   @extend %display;
   flex-direction: row;
@@ -72,8 +83,12 @@ li {
   cursor: pointer;
 }
 
+.link {
+  color: initial;
+}
+
 @media screen and (min-width: 425px) {
   .hold {
-    width: 320px;
+    width: 450px;
   }
 }

@@ -27,22 +27,27 @@ const Home = (): JSX.Element => {
       return;
     } else if (storageData.length >= 1) {
       setTodo(JSON.parse(storageData));
-      console.log(todo);
+      // console.log("Home todo", todo);
     }
   }, []);
 
-  const DeleteData = useCallback((index: number) => {
-    let storageData: storageType = localStorage.getItem("todo");
+  const DeleteData = useCallback(
+    (index: number) => {
+      let storageData = localStorage.getItem("todo");
 
-    if (storageData == null) {
-      return null;
-    } else {
-      console.log(JSON.parse(storageData)?.[index]);
-      storageData = JSON.parse(storageData).slice(index, index);
-      localStorage.setItem("todo", JSON.stringify(storageData));
-      window.location.reload();
-    }
-  }, []);
+      if (storageData == null) {
+        return null;
+      } else if (storageData.length >= 1) {
+        let newStorageData: todoType[] = JSON.parse(storageData);
+
+        console.log(newStorageData[index]);
+        newStorageData.splice(index, 1);
+        localStorage.setItem("todo", JSON.stringify(newStorageData));
+        window.location.reload();
+      }
+    },
+    [todo]
+  );
 
   useEffect(() => {
     return FetchData;
@@ -65,7 +70,7 @@ const Home = (): JSX.Element => {
             {todo?.map((prop: todoType, index) => (
               <li key={prop.task}>
                 <div className={style["task_details"]}>
-                  {complete ? (
+                  {/* {complete ? (
                     <div className={style["icon"]}>
                       <BiCheckDouble color="green" />
                     </div>
@@ -73,13 +78,14 @@ const Home = (): JSX.Element => {
                     <div className={style["icon"]}>
                       <BiCheck color="grey" />
                     </div>
-                  )}
+                  )} */}
+                  <input type="checkbox" />
 
                   <span> {prop.task}</span>
                 </div>
 
                 <div className={style["action_btn"]}>
-                  <Link to={`/update/${index}`}>
+                  <Link to={`/update/${index}`} className={style["link"]}>
                     <div className={style["icon"]}>
                       <TbEdit fontSize="20px" />
                     </div>
