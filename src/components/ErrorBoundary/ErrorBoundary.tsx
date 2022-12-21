@@ -3,9 +3,11 @@ import React, { ErrorInfo, ReactNode } from "react";
 type MyProps = {
   children: ReactNode;
 };
+
 type States = {
   hasError: boolean;
 };
+
 class ErrorBoundary extends React.Component<MyProps, States> {
   constructor(props: MyProps) {
     super(props);
@@ -23,6 +25,7 @@ class ErrorBoundary extends React.Component<MyProps, States> {
     console.log("Error", error);
     console.log("Info", info);
   }
+
   render(): React.ReactNode {
     if (this.state.hasError) {
       return (
